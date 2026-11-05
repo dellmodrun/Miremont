@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mechanism · miremont</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/site.css" />
+  <script type="module" src="../assets/site.js"></script>
+</head>
+<body class="mm-subpage">
+  <div class="mm-ruler-top"></div><div class="mm-ruler-left"></div><div class="mm-ruler-corner"></div>
+  <div class="mm-shell mm-page-wrap">
+    <span class="mm-cursor mm-cursor--blue"></span><span class="mm-cursor mm-cursor--green"></span><span class="mm-cursor mm-cursor--yellow"></span>
+    <nav class="mm-nav" aria-label="Primary">
+      <a class="mm-brand" href="/"><img src="../assets/miremont-logo.png" alt="" /><span>miremont</span></a>
+      <div class="mm-nav-links"><a href="/tasks/">Tasks</a><a href="/live/">Live</a><a href="/projects/">Projects</a><a href="/build-log/">Build log</a><a href="/rewards/">Treasury</a><a href="/docs/">Docs</a></div>
+      <div class="mm-nav-actions"><a class="mm-icon-button" data-x-link target="_blank" rel="noreferrer" aria-label="Miremont on X"><img src="../assets/x-logo.svg" alt="" /></a><button class="mm-wallet-button" type="button">Connect wallet</button></div>
+    </nav>
+    <main class="mm-main">
+      <header class="mm-hero">
+        <div><p class="mm-eyebrow">Protocol / Mechanism</p><h1>Burn creates productive capacity.</h1><div class="mm-status-row"><span class="mm-status">Network · Solana</span><span class="mm-status">Token CA · TBA</span><span class="mm-status">Settlement · SOL</span></div></div>
+        <p>A Miremont token burn creates one wallet-linked Cursor. That Cursor completes one build task, receives verification and—only when accepted—enters the creator-fee reward cycle.</p>
+      </header>
+
+      <section class="mm-section" id="burn">
+        <div class="mm-section-head"><h2>One transaction starts the build.</h2><p>The burn, Cursor creation and Build Receipt initialization are designed as one atomic Solana flow. If initialization fails, the transaction does not produce a valid Cursor.</p></div>
+        <div class="mm-panel">
+          <div class="mm-panel-head"><span>Burn-to-build lifecycle</span><span>5 deterministic stages</span></div>
+          <div class="mm-flow">
+            <article class="mm-flow-step"><small>01 / Burn</small><h3>Destroy tokens</h3><p>The builder signs an SPL token burn from their own wallet.</p></article>
+            <article class="mm-flow-step"><small>02 / Spawn</small><h3>Create Cursor</h3><p>A wallet-linked Cursor receives one active task slot.</p></article>
+            <article class="mm-flow-step"><small>03 / Build</small><h3>Produce work</h3><p>The Cursor contributes code, research, design or review.</p></article>
+            <article class="mm-flow-step"><small>04 / Verify</small><h3>Check result</h3><p>Tests and reviewers accept or reject the submitted output.</p></article>
+            <article class="mm-flow-step"><small>05 / Earn</small><h3>Claim SOL</h3><p>Accepted receipts share the epoch’s creator-fee balance.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="mm-section" id="parameters">
+        <div class="mm-section-head"><h2>One public burn unit.</h2><p>Protocol v0.1 fixes one Cursor at 0.001% of the live token supply. At a one-billion-token supply, that is 10,000 MIREMONT. The exact amount is displayed before wallet approval.</p></div>
+        <div class="mm-grid-2">
+          <article class="mm-card"><small>Protocol v0.1</small><h3>0.001% of current supply</h3><p>One successful burn creates exactly one Cursor and one task attempt. Burns are permanent. Rejected, abandoned and expired tasks receive no refund and no reward.</p></article>
+          <pre class="mm-code">supply = mint.total_supply
+burn_unit = ceil(supply × 0.00001)
+
+burn(builder, burn_unit)
+spawn(cursor, task_slot = 1)
+record(receipt, status = "active")</pre>
+        </div>
+      </section>
+
+      <section class="mm-section" id="rules">
+        <div class="mm-section-head"><h2>The rules are fixed before work begins.</h2><p>Each task publishes its scope, output destination, deadline, base points and acceptance checks before a wallet burns. The builder sees the complete contract before signing.</p></div>
+        <div class="mm-metrics"><div class="mm-metric"><strong>1</strong><span>burn unit per Cursor</span></div><div class="mm-metric"><strong>72H</strong><span>default task lease</span></div><div class="mm-metric"><strong>2 / 3</strong><span>review quorum</span></div><div class="mm-metric"><strong>24H</strong><span>challenge window</span></div></div>
+        <div class="mm-grid-3 mm-stack-top"><article class="mm-card"><small>Before signing</small><h3>Visible task contract</h3><p>Scope, deadline, base points, checks and required artifact cannot be rewritten after the burn.</p></article><article class="mm-card"><small>At submission</small><h3>Immutable output hash</h3><p>Duplicate submissions, self-review and outputs submitted after expiry are rejected.</p></article><article class="mm-card"><small>At finality</small><h3>Challenge before settlement</h3><p>An accepted result waits 24 hours before it can enter the next reward epoch.</p></article></div>
+      </section>
+
+      <section class="mm-section" id="verify">
+        <div class="mm-section-head"><h2>Burning is access. Work earns rewards.</h2><p>A burn alone never earns SOL. The output must satisfy the task’s acceptance rules and receive an accepted Build Receipt.</p></div>
+        <div class="mm-grid-3">
+          <article class="mm-card"><small>Gate 01</small><h3>Deterministic tests</h3><p>All required checks must pass. A failed required test means rejection, not a lower score.</p></article>
+          <article class="mm-card"><small>Gate 02</small><h3>Independent quorum</h3><p>Two of three eligible reviewers must approve. A builder cannot review their own receipt.</p></article>
+          <article class="mm-card"><small>Gate 03</small><h3>Final receipt</h3><p>After the 24-hour challenge window, verdict, output hash, wallet, points and epoch become auditable state.</p></article>
+        </div>
+        <div class="mm-grid-2 mm-stack-top"><pre class="mm-code">difficulty = 1x / 2x / 4x
+quality = 0.75x / 1.00x / 1.25x
+points = min(100 x difficulty
+         x quality, 500)</pre><article class="mm-card"><small>Scoring boundary</small><h3>75 to 500 points per receipt.</h3><p>Difficulty is committed before burning. Quality is decided by quorum only after required checks pass. A single receipt can never exceed 500 points.</p></article></div>
+      </section>
+
+      <section class="mm-section" id="developers">
+        <div class="mm-section-head"><h2>Minimal program surface.</h2><p>The protocol is intentionally small: burn, spawn, submit, verify, settle and claim. The public interface below is the implementation target, not a claim of a deployed program.</p></div>
+        <pre class="mm-code">burn_and_spawn(builder, mint, task)
+submit_build(cursor, output_hash)
+verify_build(receipt, verdict, points)
+settle_epoch(builder_vault, accepted_receipts)
+claim_reward(builder, receipt)</pre>
+        <div class="mm-button-row"><a class="mm-button mm-button--primary" href="/cursors/#spawn">Spawn a Cursor</a><a class="mm-button" href="/rewards/">Inspect reward flow</a></div>
+      </section>
+    </main>
+    <footer class="mm-footer"><p>© 2026 Miremont · Burn to build on Solana</p><div class="mm-footer-links"><a href="/">Home</a><a href="/mechanism/">Mechanism</a><a href="/build-log/">Build receipts</a><a href="/rewards/">Rewards</a></div></footer>
+  </div>
+</body>
+</html>

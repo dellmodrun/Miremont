@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Treasury · miremont</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/site.css" /><script type="module" src="../assets/site.js"></script>
+</head>
+<body class="mm-subpage">
+  <div class="mm-ruler-top"></div><div class="mm-ruler-left"></div><div class="mm-ruler-corner"></div>
+  <div class="mm-shell mm-page-wrap">
+    <span class="mm-cursor mm-cursor--blue"></span><span class="mm-cursor mm-cursor--green"></span><span class="mm-cursor mm-cursor--yellow"></span>
+    <nav class="mm-nav" aria-label="Primary"><a class="mm-brand" href="/"><img src="../assets/miremont-logo.png" alt="" /><span>miremont</span></a><div class="mm-nav-links"><a href="/tasks/">Tasks</a><a href="/live/">Live</a><a href="/projects/">Projects</a><a href="/build-log/">Build log</a><a href="/rewards/">Treasury</a><a href="/docs/">Docs</a></div><div class="mm-nav-actions"><a class="mm-icon-button" data-x-link target="_blank" rel="noreferrer" aria-label="Miremont on X"><img src="../assets/x-logo.svg" alt="" /></a><button class="mm-wallet-button" type="button">Connect wallet</button></div></nav>
+    <main class="mm-main">
+      <header class="mm-hero"><div><p class="mm-eyebrow">Treasury / Public settlement</p><h1>Every SOL follows a visible route.</h1><div class="mm-status-row"><span class="mm-status">Treasury · <span data-treasury-address>loading</span></span><span class="mm-status">Epochs · <span data-epoch-count>0</span></span><span class="mm-status">Asset · SOL</span></div></div><p>Creator fees enter a public Fee Router, split into declared pools and settle against finalized Build Receipts. Deposits, allocations and claims remain traceable from source transaction to recipient wallet.</p></header>
+
+      <section class="mm-section" id="vault">
+        <div class="mm-metrics"><div class="mm-metric"><strong data-treasury-value="totalDeposited">0</strong><span>lamports deposited</span></div><div class="mm-metric"><strong data-treasury-value="totalAllocated">0</strong><span>lamports allocated</span></div><div class="mm-metric"><strong data-treasury-value="totalClaimed">0</strong><span>lamports claimed</span></div><div class="mm-metric"><strong data-treasury-value="reserveAccrued">0</strong><span>reserve accrued</span></div></div>
+      </section>
+
+      <section class="mm-section" id="accounts">
+        <div class="mm-section-head"><h2>Public treasury accounts.</h2><p>Balances are read from Solana, never typed into the interface. Every account will link directly to its explorer record after deployment.</p></div>
+        <div class="mm-grid-3"><article class="mm-card"><small>Fee Router</small><h3 data-treasury-address>loading</h3><p>Receives eligible net creator-fee deposits and executes the fixed 70 / 15 / 10 / 5 allocation.</p></article><article class="mm-card"><small>Builder allocation</small><h3>70%</h3><p>Claims are proportional to finalized points in the settled epoch.</p></article><article class="mm-card"><small>Safety Reserve</small><h3>5%</h3><p>Reserve accounting is stored in the same public Treasury account.</p></article></div>
+      </section>
+
+      <section class="mm-section">
+        <div class="mm-section-head"><h2>Every incoming SOL has a declared destination.</h2><p>Protocol v0.1 allocates net creator fees only after they reach the public Fee Router. Fees held by an external launch venue are not counted until their deposit is visible onchain.</p></div>
+        <div class="mm-panel"><div class="mm-panel-head"><span>Creator fee router</span><span>24H epoch · SOL</span></div><div class="mm-flow" style="grid-template-columns:repeat(4,1fr)"><article class="mm-flow-step"><small>01 / Trade</small><h3>Creator fees</h3><p>Eligible trading activity accumulates creator fees.</p></article><article class="mm-flow-step"><small>02 / Route</small><h3>Builder Vault</h3><p>Fees settle into one publicly inspectable vault.</p></article><article class="mm-flow-step"><small>03 / Score</small><h3>Accepted receipts</h3><p>Verified tasks contribute points to the current epoch.</p></article><article class="mm-flow-step"><small>04 / Claim</small><h3>Builders receive SOL</h3><p>Each wallet claims its deterministic share.</p></article></div></div>
+      </section>
+
+      <section class="mm-section" id="allocation">
+        <div class="mm-section-head"><h2>85% goes to productive work.</h2><p>The split is applied to net SOL received by the Fee Router. No wallet can receive an unpublished discretionary allocation after an epoch closes.</p></div>
+        <div class="mm-metrics"><div class="mm-metric"><strong>70%</strong><span>accepted builders</span></div><div class="mm-metric"><strong>15%</strong><span>eligible reviewers</span></div><div class="mm-metric"><strong>10%</strong><span>protocol operations</span></div><div class="mm-metric"><strong>5%</strong><span>safety reserve</span></div></div>
+        <div class="mm-grid-2 mm-stack-top"><article class="mm-card"><small>Builder pool</small><h3>70% by accepted points.</h3><p>Only finalized receipts in the current 24-hour epoch participate. A builder receives the same fraction of this pool as their fraction of accepted points.</p></article><article class="mm-card"><small>Reviewer pool</small><h3>15% by recorded reviews.</h3><p>Each of the three distinct reviewer accounts receives one unit. Self-review is rejected on-chain; reviewer governance remains an application-layer policy in v0.1.</p></article></div>
+      </section>
+
+      <section class="mm-section">
+        <div class="mm-section-head"><h2>The formula stays visible.</h2><p>No discretionary allocation happens after an epoch closes. Anyone can recompute a claim from public receipt points and the recorded vault balance.</p></div>
+        <div class="mm-grid-2"><pre class="mm-code">builder_pool = epoch_net_sol x 0.70
+builder_share = builder_points
+              / total_accepted_points
+claimable_sol = builder_pool x builder_share
+
+reviewer_pool = epoch_net_sol x 0.15
+reviewer_claim = reviewer_pool
+               / eligible_review_units</pre><article class="mm-card"><small>Hard rule</small><h3>Rejected work receives zero.</h3><p>Burning creates the right to attempt one task. It does not create yield or guarantee a reward. Empty pools roll forward; claims remain available for 90 days.</p></article></div>
+      </section>
+
+      <section class="mm-section">
+        <div class="mm-section-head"><h2>Settlement has no hidden step.</h2><p>An epoch closes every 24 hours, but receipts enter settlement only after their challenge window ends. Vault balance, total points and claims can be recomputed from public accounts.</p></div>
+        <div class="mm-grid-3"><article class="mm-card"><small>Epoch</small><h3>00:00 UTC daily</h3><p>The router snapshots available SOL and finalized receipt points once per day.</p></article><article class="mm-card"><small>Claims</small><h3>Wallet-bound</h3><p>Builders and reviewers claim from the wallet recorded on the receipt. Claims do not expire in protocol v0.1.</p></article><article class="mm-card"><small>Empty pool</small><h3>Automatic rollover</h3><p>If a builder or reviewer pool has no eligible units, that share remains unallocated for a later epoch.</p></article></div>
+      </section>
+
+      <section class="mm-section" id="ledger">
+        <div class="mm-section-head"><h2>Treasury ledger.</h2><p>Every deposit, allocation, rollover and claim appears with its UTC time, amount, memo and Solana transaction. No transaction is shown until it exists onchain.</p></div>
+        <div class="mm-button-row" aria-label="Ledger filters"><button class="mm-button mm-filter" type="button" aria-pressed="true">All</button><button class="mm-button mm-filter" type="button" aria-pressed="false">Fees in</button><button class="mm-button mm-filter" type="button" aria-pressed="false">Builder claims</button><button class="mm-button mm-filter" type="button" aria-pressed="false">Reviewer claims</button><button class="mm-button mm-filter" type="button" aria-pressed="false">Operations</button></div>
+        <div class="mm-table-wrap mm-stack-top"><table class="mm-table"><thead><tr><th>UTC</th><th>Kind</th><th>SOL</th><th>Memo</th><th>Wallet</th><th>Transaction</th></tr></thead><tbody><tr><td class="mm-empty" colspan="6">No treasury transactions · Fee Router is TBA</td></tr></tbody></table></div>
+      </section>
+
+      <section class="mm-section">
+        <div class="mm-section-head"><h2>Treasury actions.</h2><p>Deposit eligible SOL, settle a closed epoch, or claim with the wallet that owns a finalized Cursor receipt.</p></div>
+        <form class="mm-panel" data-treasury-form><div class="mm-panel-head"><span>Connected wallet</span><span data-wallet-address>Not connected</span></div><div class="mm-panel-body"><div class="mm-form-grid"><div class="mm-field"><label>Deposit amount · SOL</label><input class="mm-input" name="solAmount" type="number" min="0.000001" step="0.000001" value="0.01" /></div><div class="mm-field"><label>Epoch ID to settle</label><input class="mm-input" name="epochId" inputmode="numeric" placeholder="Epoch ID" /></div><div class="mm-field mm-field--wide"><label>Finalized Cursor to claim</label><input class="mm-input" name="cursor" placeholder="Cursor account" /></div></div><p class="mm-form-status" data-treasury-status>Every action is simulated by the wallet and enforced by the program.</p><div class="mm-button-row"><button class="mm-wallet-button" type="button">Connect wallet</button><button class="mm-button" type="button" data-treasury-action="deposit">Deposit SOL</button><button class="mm-button" type="button" data-treasury-action="settle">Settle epoch</button><button class="mm-button mm-button--primary" type="button" data-treasury-action="claim">Claim builder reward</button></div></div></form>
+      </section>
+    </main>
+    <footer class="mm-footer"><p>© 2026 Miremont · Public treasury</p><div class="mm-footer-links"><a href="/">Home</a><a href="/tasks/">Tasks</a><a href="/live/">Live</a><a href="/projects/">Projects</a><a href="/build-log/">Build log</a></div></footer>
+  </div>
+</body>
+</html>

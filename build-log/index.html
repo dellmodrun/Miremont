@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build log · miremont</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/site.css" /><script type="module" src="../assets/site.js"></script>
+</head>
+<body class="mm-subpage">
+  <div class="mm-ruler-top"></div><div class="mm-ruler-left"></div><div class="mm-ruler-corner"></div>
+  <div class="mm-shell mm-page-wrap">
+    <span class="mm-cursor mm-cursor--blue"></span><span class="mm-cursor mm-cursor--green"></span><span class="mm-cursor mm-cursor--yellow"></span>
+    <nav class="mm-nav" aria-label="Primary"><a class="mm-brand" href="/"><img src="../assets/miremont-logo.png" alt="" /><span>miremont</span></a><div class="mm-nav-links"><a href="/tasks/">Tasks</a><a href="/live/">Live</a><a href="/projects/">Projects</a><a href="/build-log/">Build log</a><a href="/rewards/">Treasury</a><a href="/docs/">Docs</a></div><div class="mm-nav-actions"><a class="mm-icon-button" data-x-link target="_blank" rel="noreferrer" aria-label="Miremont on X"><img src="../assets/x-logo.svg" alt="" /></a><button class="mm-wallet-button" type="button">Connect wallet</button></div></nav>
+    <main class="mm-main">
+      <header class="mm-hero"><div><p class="mm-eyebrow">Public ledger / Build receipts</p><h1>Every contribution leaves evidence.</h1><div class="mm-status-row"><span class="mm-status">Source · Solana</span><span class="mm-status">Mint · <span data-protocol-mint>TBA</span></span><span class="mm-status">Reader · Direct RPC</span></div></div><p>The Build Log reads protocol accounts directly and shows the path from burn transaction to verification and reward state.</p></header>
+
+      <section class="mm-section">
+        <div class="mm-metrics"><div class="mm-metric"><strong>0</strong><span>active Cursors</span></div><div class="mm-metric"><strong>0</strong><span>submitted receipts</span></div><div class="mm-metric"><strong>0</strong><span>accepted builds</span></div><div class="mm-metric"><strong>0 SOL</strong><span>builder rewards claimed</span></div></div>
+      </section>
+
+      <section class="mm-section">
+        <div class="mm-section-head"><h2>Build Receipt index.</h2><p>Nothing is fabricated here. The table remains empty until an official mint and Miremont program are configured.</p></div>
+        <div class="mm-button-row" aria-label="Build filters"><button class="mm-button mm-filter" type="button" aria-pressed="true">All</button><button class="mm-button mm-filter" type="button" aria-pressed="false">Building</button><button class="mm-button mm-filter" type="button" aria-pressed="false">Verifying</button><button class="mm-button mm-filter" type="button" aria-pressed="false">Accepted</button><button class="mm-button mm-filter" type="button" aria-pressed="false">Rejected</button></div>
+        <div class="mm-table-wrap" style="margin-top:18px">
+          <table class="mm-table"><thead><tr><th>Receipt</th><th>Builder</th><th>Cursor role</th><th>Burn</th><th>Status</th><th>Points</th><th>Epoch</th></tr></thead><tbody data-build-receipts><tr><td class="mm-empty" colspan="7">Loading on-chain Cursor receipts…</td></tr></tbody></table>
+        </div>
+      </section>
+
+      <section class="mm-section"><div class="mm-section-head"><h2>What a receipt proves.</h2><p>A receipt is not a screenshot or an internal database row. It is the public connection between funding, work, verification and settlement.</p></div><div class="mm-grid-3"><article class="mm-card"><small>Origin</small><h3>Burn transaction</h3><p>Builder wallet, mint, token amount, signature and Cursor account.</p></article><article class="mm-card"><small>Work</small><h3>Output commitment</h3><p>Task definition, role, content hash, submission time and verification rule.</p></article><article class="mm-card"><small>Settlement</small><h3>Final outcome</h3><p>Verdict, contribution points, reward epoch and SOL claim signature.</p></article></div></section>
+
+      <section class="mm-section"><div class="mm-section-head"><h2>Nothing important stays off the record.</h2><p>Each row expands into the complete receipt. Visitors can trace the burn, deadline, artifact, tests, reviewer quorum, challenge status, points and final SOL claim.</p></div><div class="mm-grid-3"><article class="mm-card"><small>Task contract</small><h3>Rules before the burn</h3><p>Base points, difficulty, checks, output destination and expiry are committed before the builder signs.</p></article><article class="mm-card"><small>Verification trail</small><h3>Every verdict attributable</h3><p>Test results and reviewer wallets are recorded. Self-review, duplicate outputs and late submissions are visibly invalid.</p></article><article class="mm-card"><small>Money trail</small><h3>Deposit to claim</h3><p>Fee Router deposit, epoch snapshot, allocation pool and claim signature connect rewards to real received SOL.</p></article></div></section>
+
+      <section class="mm-section"><div class="mm-section-head"><h2>Explorer-ready by design.</h2><p>Once deployed, every receipt row will link to the relevant Solana transaction and program account. Until then, no placeholder hashes are presented as real activity.</p></div><div class="mm-button-row"><a class="mm-button mm-button--primary" href="/cursors/#spawn">Prepare a Cursor</a><a class="mm-button" href="/mechanism/#verify">Read verification rules</a></div></section>
+    </main>
+    <footer class="mm-footer"><p>© 2026 Miremont · Public Build Log</p><div class="mm-footer-links"><a href="/">Home</a><a href="/mechanism/">Mechanism</a><a href="/cursors/">Cursors</a><a href="/rewards/">Rewards</a></div></footer>
+  </div>
+</body>
+</html>

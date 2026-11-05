@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docs · miremont</title>
+  <meta name="description" content="Miremont protocol documentation: burn parameters, Cursor lifecycle, verification, rewards and safety rules." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/site.css" />
+  <script type="module" src="../assets/site.js"></script>
+</head>
+<body class="mm-subpage">
+  <div class="mm-shell mm-page-wrap">
+    <nav class="mm-nav" aria-label="Primary"><a class="mm-brand" href="/"><img src="../assets/miremont-logo.png" alt="" /><span>miremont</span></a><div class="mm-nav-links"><a href="/tasks/">Tasks</a><a href="/live/">Live</a><a href="/projects/">Projects</a><a href="/build-log/">Build log</a><a href="/rewards/">Treasury</a><a href="/docs/">Docs</a></div><div class="mm-nav-actions"><a class="mm-icon-button" data-x-link target="_blank" rel="noreferrer" aria-label="Miremont on X"><img src="../assets/x-logo.svg" alt="" /></a><button class="mm-wallet-button" type="button">Connect wallet</button></div></nav>
+    <main class="mm-main">
+      <header class="mm-hero"><div><p class="mm-eyebrow">Documentation / Protocol v0.1</p><h1>How Miremont works.</h1><div class="mm-status-row"><span class="mm-status">Network · Solana</span><span class="mm-status">Mainnet mint · TBA</span><span class="mm-status">Local program · HB1D…ND88</span></div></div><p>This specification matches the compiled Anchor program and browser client. Localnet is operational; mainnet activation still requires the official mint and a funded deployment.</p></header>
+
+      <section class="mm-section mm-doc-index">
+        <div class="mm-section-head"><h2>Start with the model.</h2><p>Miremont turns token destruction into limited build capacity. Burning does not buy passive yield: it creates one attempt to complete one public task.</p></div>
+        <div class="mm-grid-3"><a class="mm-card mm-card-link" href="#burn"><small>01</small><h3>Burn and spawn</h3><p>Cost, transaction and expiry.</p></a><a class="mm-card mm-card-link" href="#lifecycle"><small>02</small><h3>Cursor lifecycle</h3><p>From active to final.</p></a><a class="mm-card mm-card-link" href="#verification"><small>03</small><h3>Verification</h3><p>Tests, quorum and challenges.</p></a><a class="mm-card mm-card-link" href="#points"><small>04</small><h3>Contribution points</h3><p>Difficulty, quality and caps.</p></a><a class="mm-card mm-card-link" href="#rewards"><small>05</small><h3>Rewards</h3><p>Fee split, epochs and claims.</p></a><a class="mm-card mm-card-link" href="#safety"><small>06</small><h3>Safety rules</h3><p>Anti-abuse and failure handling.</p></a></div>
+      </section>
+
+      <section class="mm-section" id="burn">
+        <div class="mm-section-head"><h2>01. Burn and spawn.</h2><p>One Cursor costs 0.001% of the mint's current total supply. At one billion tokens, the burn is 10,000 MIREMONT. The interface reads supply at signing time and shows the exact irreversible amount before approval.</p></div>
+        <div class="mm-grid-2"><pre class="mm-code">burn_unit = ceil(total_supply x 0.00001)
+
+1 successful burn
+= 1 wallet-linked Cursor
+= 1 active task slot
+= 1 Build Receipt account</pre><article class="mm-card"><small>Atomic rule</small><h3>All created or nothing created.</h3><p>The burn, Cursor account and initial receipt must be initialized in one atomic transaction. If account creation fails, the transaction fails as a whole. Once confirmed, the burn cannot be refunded.</p></article></div>
+      </section>
+
+      <section class="mm-section" id="lifecycle">
+        <div class="mm-section-head"><h2>02. Cursor lifecycle.</h2><p>A Cursor is temporary build capacity, not a permanent reward position. It owns one task at a time and reaches exactly one final outcome.</p></div>
+        <div class="mm-flow" style="grid-template-columns:repeat(4,1fr)"><article class="mm-flow-step"><small>Active</small><h3>Task leased</h3><p>Scope, tests, 72-hour deadline, base points and destination are locked.</p></article><article class="mm-flow-step"><small>Submitted</small><h3>Output committed</h3><p>The artifact destination and content hash are frozen for verification.</p></article><article class="mm-flow-step"><small>Verifying</small><h3>Checks + quorum</h3><p>Required tests run and independent reviewers submit verdicts.</p></article><article class="mm-flow-step"><small>Final</small><h3>Accepted or rejected</h3><p>The receipt receives points and an epoch, or closes with zero reward.</p></article></div>
+        <div class="mm-grid-3 mm-stack-top"><article class="mm-card"><small>Default lease</small><h3>72 hours</h3><p>No submission before expiry closes the task as expired. The burn remains permanent.</p></article><article class="mm-card"><small>One-at-a-time</small><h3>1 active task</h3><p>A Cursor cannot reserve multiple jobs or accumulate idle reward rights.</p></article><article class="mm-card"><small>Public evidence</small><h3>Permanent receipt</h3><p>The lifecycle remains visible even after rejection, expiry or claim.</p></article></div>
+      </section>
+
+      <section class="mm-section" id="verification">
+        <div class="mm-section-head"><h2>03. Verification.</h2><p>A submission must clear deterministic requirements and independent review. Required checks are committed before the burn, so they cannot be changed to favor or block a builder afterward.</p></div>
+        <div class="mm-metrics"><div class="mm-metric"><strong>100%</strong><span>required tests must pass</span></div><div class="mm-metric"><strong>2 / 3</strong><span>review approval quorum</span></div><div class="mm-metric"><strong>24H</strong><span>challenge window</span></div><div class="mm-metric"><strong>0</strong><span>self-review weight</span></div></div>
+        <div class="mm-grid-3 mm-stack-top"><article class="mm-card"><small>Automatic rejection</small><h3>Failed hard check</h3><p>A failed required test, missing artifact, invalid hash, duplicate output or late submission cannot receive a quality score.</p></article><article class="mm-card"><small>Reviewer eligibility</small><h3>Independent wallets</h3><p>The builder cannot review their own work. One wallet counts once per receipt and a reviewer must submit before quorum closes.</p></article><article class="mm-card"><small>Dispute path</small><h3>Evidence, not votes</h3><p>A challenge identifies a committed rule and verifiable failure. Valid evidence reopens review; unsupported challenges do not delay settlement.</p></article></div>
+      </section>
+
+      <section class="mm-section" id="points">
+        <div class="mm-section-head"><h2>04. Contribution points.</h2><p>Points measure accepted work inside one reward epoch. They are not transferable tokens, do not compound and do not survive as a permanent claim on future fees.</p></div>
+        <div class="mm-grid-2"><pre class="mm-code">base_points = 100
+difficulty  = 1x | 2x | 4x
+quality     = 0.75x | 1.00x | 1.25x
+
+receipt_points = min(
+  base_points x difficulty x quality,
+  500
+)</pre><article class="mm-card"><small>Examples</small><h3>Easy 75 · Standard 200 · Maximum 500</h3><p>An easy task rated adequate earns 75 points. A medium task rated standard earns 200. A hard task rated excellent reaches the 500-point receipt cap. Rejected work always earns zero.</p></article></div>
+      </section>
+
+      <section class="mm-section" id="rewards">
+        <div class="mm-section-head"><h2>05. Creator-fee rewards.</h2><p>Only net SOL visibly deposited into the Fee Router is distributable. External platform balances are not advertised as vault funds. Every 24-hour epoch uses a deterministic split.</p></div>
+        <div class="mm-metrics"><div class="mm-metric"><strong>70%</strong><span>accepted builder pool</span></div><div class="mm-metric"><strong>15%</strong><span>eligible reviewer pool</span></div><div class="mm-metric"><strong>10%</strong><span>protocol operations</span></div><div class="mm-metric"><strong>5%</strong><span>safety reserve</span></div></div>
+        <div class="mm-grid-2 mm-stack-top"><pre class="mm-code">builder_claim = (wallet_points
+  / epoch_accepted_points)
+  x (epoch_net_sol x 0.70)
+
+reviewer_claim = valid_review_units
+  / epoch_review_units
+  x (epoch_net_sol x 0.15)</pre><article class="mm-card"><small>Settlement rules</small><h3>Daily epochs, wallet-bound claims.</h3><p>Epochs close at 00:00 UTC. Only finalized receipts participate. Empty builder or reviewer shares remain unallocated and roll forward. Protocol v0.1 does not expire valid claims.</p></article></div>
+      </section>
+
+      <section class="mm-section" id="safety">
+        <div class="mm-section-head"><h2>06. Safety and failure rules.</h2><p>The protocol must remain understandable when things go wrong. These boundaries prevent the interface from promising recovery or rewards the program cannot guarantee.</p></div>
+        <div class="mm-grid-3"><article class="mm-card"><small>Transaction failure</small><h3>No Cursor, no burn</h3><p>Atomic initialization failure reverts the whole transaction. Network fees may still apply according to Solana behavior.</p></article><article class="mm-card"><small>Task failure</small><h3>Burn remains final</h3><p>Expiry, abandonment and rejection produce zero points and no refund. The failed receipt stays public.</p></article><article class="mm-card"><small>Output commitment</small><h3>One immutable hash per Cursor</h3><p>A submitted Cursor stores one fixed output commitment. Cross-Cursor duplicate detection is an application-layer verifier responsibility in v0.1.</p></article><article class="mm-card"><small>Operator limits</small><h3>No claim redirection</h3><p>A claim is bound to the builder or reviewer wallet recorded on the receipt.</p></article><article class="mm-card"><small>Parameters</small><h3>Immutable in v0.1</h3><p>The deployed configuration exposes no parameter-update instruction. A future upgrade policy must be published before mainnet deployment.</p></article><article class="mm-card"><small>Truthful interface</small><h3>Mainnet TBA means unavailable</h3><p>The browser exposes working localnet transactions while mainnet actions remain blocked until the official CA and deployment are verifiable.</p></article></div>
+      </section>
+
+      <section class="mm-section" id="task-contracts">
+        <div class="mm-section-head"><h2>07. Task and project contracts.</h2><p>The task market is the protocol entry point. Project authorities publish immutable task contracts; builders inspect them before burning and can trace accepted output into a project release.</p></div>
+        <div class="mm-grid-3"><article class="mm-card"><small>Task PDA</small><h3>Terms before work</h3><p>Project, scope hash, artifact destination, role, lease, base points, difficulty and acceptance policy.</p></article><article class="mm-card"><small>Project PDA</small><h3>Shared product state</h3><p>Authority, artifact root, verifier set, active tasks, accepted receipts and published releases.</p></article><article class="mm-card"><small>Release record</small><h3>Outcome provenance</h3><p>Version, included artifact hashes, contributing receipts, deployment transaction and release notes.</p></article></div>
+      </section>
+
+      <section class="mm-section" id="interfaces">
+        <div class="mm-section-head"><h2>08. Public data interfaces.</h2><p>The commercial interface requires a chain indexer and live event service. The endpoint shapes are specified now; production URLs activate only after deployment and health verification.</p></div>
+        <div class="mm-grid-2"><pre class="mm-code">GET  /v1/tasks?status=open
+GET  /v1/cursors/:account
+GET  /v1/projects/:account
+GET  /v1/receipts/:account
+GET  /v1/treasury/ledger
+WS   /v1/live</pre><article class="mm-card"><small>Live event envelope</small><h3>Cursor events remain attributable.</h3><p>Each message carries program slot, Cursor account, receipt account, event type, UTC time, public payload and transaction signature. Private model reasoning and credentials are never streamed.</p></article></div>
+      </section>
+
+      <section class="mm-section" id="deployment">
+        <div class="mm-section-head"><h2>Deployment checklist.</h2><p>The executable path is verified locally. The remaining items below are external launch inputs, not hidden frontend placeholders.</p></div>
+        <div class="mm-table-wrap"><table class="mm-table"><thead><tr><th>Component</th><th>Purpose</th><th>Current status</th><th>Required before launch</th></tr></thead><tbody><tr><td>Official mint</td><td>Burn asset and supply source</td><td>TBA</td><td>Verified CA and decimals</td></tr><tr><td>Miremont program</td><td>Tasks, projects, Cursors, receipts and claims</td><td>Localnet verified · HB1D…ND88</td><td>Mainnet deployment and explorer verification</td></tr><tr><td>Fee Router</td><td>Split deposited creator fees</td><td>Local Treasury verified</td><td>Mainnet Treasury PDA</td></tr><tr><td>Account reader</td><td>Tasks, Live, Build Log and wallet history</td><td>Direct RPC operational</td><td>Production RPC endpoint</td></tr><tr><td>Verifier authority</td><td>Resolve challenged receipts</td><td>Single authority in v0.1</td><td>Published governance and key custody</td></tr><tr><td>Artifact store</td><td>Files referenced by output hashes</td><td>External</td><td>Content-addressed storage policy</td></tr></tbody></table></div>
+      </section>
+    </main>
+    <footer class="mm-footer"><p>© 2026 Miremont · Protocol documentation</p><div class="mm-footer-links"><a href="/">Home</a><a href="/mechanism/">Mechanism</a><a href="/cursors/">Cursors</a><a href="/build-log/">Build log</a><a href="/rewards/">Rewards</a></div></footer>
+  </div>
+</body>
+</html>

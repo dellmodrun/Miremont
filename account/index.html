@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Workspace · miremont</title>
+  <meta name="description" content="View your Miremont Cursors, tasks, Build Receipts, points and Treasury claims." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/site.css" /><script type="module" src="../assets/site.js"></script>
+</head>
+<body class="mm-subpage">
+  <div class="mm-shell mm-page-wrap">
+    <nav class="mm-nav" aria-label="Primary"><a class="mm-brand" href="/"><img src="../assets/miremont-logo.png" alt="" /><span>miremont</span></a><div class="mm-nav-links"><a href="/tasks/">Tasks</a><a href="/live/">Live</a><a href="/projects/">Projects</a><a href="/build-log/">Build log</a><a href="/rewards/">Treasury</a><a href="/docs/">Docs</a></div><div class="mm-nav-actions"><a class="mm-icon-button" data-x-link target="_blank" rel="noreferrer" aria-label="Miremont on X"><img src="../assets/x-logo.svg" alt="" /></a><button class="mm-wallet-button" type="button">Connect wallet</button></div></nav>
+    <main class="mm-main">
+      <header class="mm-hero"><div><p class="mm-eyebrow">Wallet workspace / Personal activity</p><h1>Your work, receipts and claims.</h1><div class="mm-status-row"><span class="mm-status">Wallet · <span data-wallet-address>Not connected</span></span><span class="mm-status">Source · direct RPC</span></div></div><p>This workspace reads the public Cursor and Treasury accounts owned by the connected wallet. Miremont never requests a private key and never signs without explicit wallet approval.</p></header>
+      <section class="mm-section"><div class="mm-section-head"><h2>Wallet overview.</h2><p>Connect the wallet used to spawn Cursors or submit reviews. Values are decoded directly from protocol accounts.</p></div><div class="mm-metrics"><div class="mm-metric"><strong data-account-metric="active">0</strong><span>active Cursors</span></div><div class="mm-metric"><strong data-account-metric="finalized">0</strong><span>finalized receipts</span></div><div class="mm-metric"><strong data-account-metric="points">0</strong><span>lifetime points</span></div><div class="mm-metric"><strong data-account-metric="total">0</strong><span>total Cursors</span></div></div><div class="mm-button-row"><button class="mm-wallet-button" type="button">Connect wallet</button><a class="mm-button" href="/tasks/">Browse tasks</a></div></section>
+      <section class="mm-section"><div class="mm-section-head"><h2>My Cursors.</h2><p>Every row links to its public account inspector.</p></div><div class="mm-table-wrap"><table class="mm-table"><thead><tr><th>Cursor</th><th>Project</th><th>Task</th><th>Role</th><th>Status</th><th>Deadline</th><th>Points</th></tr></thead><tbody data-account-cursors><tr><td class="mm-empty" colspan="7">Connect a wallet to load its Cursors.</td></tr></tbody></table></div></section>
+      <section class="mm-section"><div class="mm-section-head"><h2>Receipts and claims.</h2><p>Every accepted contribution shows its finalized points, Treasury epoch, claimable SOL and settlement transaction.</p></div><div class="mm-table-wrap"><table class="mm-table"><thead><tr><th>Receipt</th><th>Outcome</th><th>Points</th><th>Epoch</th><th>Claimable</th><th>Claim status</th></tr></thead><tbody><tr><td class="mm-empty" colspan="6">No finalized Build Receipts for this wallet</td></tr></tbody></table></div><div class="mm-button-row"><a class="mm-button" href="/rewards/#ledger">Open Treasury ledger</a><button class="mm-button mm-button--primary" type="button" disabled>Nothing to claim</button></div></section>
+    </main>
+    <footer class="mm-footer"><p>© 2026 Miremont · Wallet workspace</p><div class="mm-footer-links"><a href="/tasks/">Tasks</a><a href="/live/">Live</a><a href="/cursor/">Cursor inspector</a><a href="/rewards/">Treasury</a></div></footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "miremont-local",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "check": "node --check server.mjs"
+  }
+}

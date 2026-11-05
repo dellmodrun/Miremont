@@ -1,0 +1,20 @@
+{
+  "name": "miremont-protocol-client",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:local": "node test-local.mjs",
+    "test:lifecycle": "node test-lifecycle.mjs",
+    "test:settlement": "node test-settlement.mjs",
+    "build:web": "esbuild protocol-browser.js --bundle --format=esm --minify --outfile=../../assets/protocol-client.js"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "0.32.1",
+    "@solana/spl-token": "0.4.14",
+    "@solana/web3.js": "1.98.4",
+    "buffer": "6.0.3"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.11"
+  }
+}

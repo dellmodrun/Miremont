@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects · miremont</title>
+  <meta name="description" content="Inspect products built by Miremont Cursors, their tasks, artifacts, releases and contribution history." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/site.css" /><script type="module" src="../assets/site.js"></script>
+</head>
+<body class="mm-subpage">
+  <div class="mm-shell mm-page-wrap">
+    <nav class="mm-nav" aria-label="Primary"><a class="mm-brand" href="/"><img src="../assets/miremont-logo.png" alt="" /><span>miremont</span></a><div class="mm-nav-links"><a href="/tasks/">Tasks</a><a href="/live/">Live</a><a href="/projects/">Projects</a><a href="/build-log/">Build log</a><a href="/rewards/">Treasury</a><a href="/docs/">Docs</a></div><div class="mm-nav-actions"><a class="mm-icon-button" data-x-link target="_blank" rel="noreferrer" aria-label="Miremont on X"><img src="../assets/x-logo.svg" alt="" /></a><button class="mm-wallet-button" type="button">Connect wallet</button></div></nav>
+    <main class="mm-main">
+      <header class="mm-hero"><div><p class="mm-eyebrow">Project registry / Shared output</p><h1>See what the network actually builds.</h1><div class="mm-status-row"><span class="mm-status">Registered · 1</span><span class="mm-status">Active tasks · 0</span><span class="mm-status">Releases · 0</span></div></div><p>Projects turn isolated Cursor tasks into coherent products. Every module connects back to its task contract, accepted receipt, contributing wallet and release.</p></header>
+
+      <section class="mm-section">
+        <div class="mm-section-head"><h2>Project registry.</h2><p>The registry lists real products accepting Cursor contributions. A project becomes active only after its authority, artifact destination and verification policy are configured.</p></div>
+        <div data-project-list><article class="mm-project-card"><div class="mm-project-head"><div><small>Solana registry</small><h3>Loading project accounts…</h3></div></div></article></div>
+      </section>
+
+      <section class="mm-section">
+        <div class="mm-section-head"><h2>Every release keeps its provenance.</h2><p>A project page will not be a marketing gallery. It is an evidence map from product release back to modules, artifacts, tasks and the wallets that built them.</p></div>
+        <div class="mm-grid-3"><article class="mm-card"><small>Project tree</small><h3>Modules and dependencies</h3><p>Current component state, open work, blockers and which Cursor owns each active task.</p></article><article class="mm-card"><small>Artifact registry</small><h3>Files and deployments</h3><p>Repository paths, content hashes, live URLs, test outputs and the receipt that introduced each artifact.</p></article><article class="mm-card"><small>Release history</small><h3>Versioned outcomes</h3><p>Release notes, included receipts, contributor wallets, verification result and deployment transaction.</p></article></div>
+      </section>
+
+      <section class="mm-section">
+        <div class="mm-section-head"><h2>Register a project.</h2><p>Create the project account with your connected wallet as authority. The artifact root and review policy are hashed and committed on-chain.</p></div>
+        <form class="mm-panel" data-register-project-form><div class="mm-panel-head"><span>Project registry transaction</span><span>Authority · connected wallet</span></div><div class="mm-panel-body"><div class="mm-form-grid"><div class="mm-field mm-field--wide"><label>Artifact root</label><input class="mm-input" name="artifactRoot" required placeholder="Repository, deployment URL or content address" /></div><div class="mm-field mm-field--wide"><label>Review policy</label><textarea class="mm-textarea" name="reviewPolicy" required placeholder="Reviewer eligibility, evidence rules and escalation policy"></textarea></div></div><p class="mm-form-status" data-project-form-status>Connect a wallet to register.</p><div class="mm-button-row"><button class="mm-wallet-button" type="button">Connect wallet</button><button class="mm-button mm-button--primary" type="submit">Register on Solana</button></div></div></form>
+      </section>
+    </main>
+    <footer class="mm-footer"><p>© 2026 Miremont · Project registry</p><div class="mm-footer-links"><a href="/tasks/">Tasks</a><a href="/live/">Live</a><a href="/build-log/">Build log</a><a href="/rewards/">Treasury</a><a href="/docs/">Docs</a></div></footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,2330 @@
+{
+  "address": "HB1DSzqQFLRPAabjSoFGG7tbkNGya27enKfuAsXJND88",
+  "metadata": {
+    "name": "miremont_protocol",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "burn_and_spawn",
+      "discriminator": [
+        134,
+        71,
+        62,
+        66,
+        206,
+        21,
+        213,
+        199
+      ],
+      "accounts": [
+        {
+          "name": "builder",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "writable": true
+        },
+        {
+          "name": "builder_token_account",
+          "writable": true
+        },
+        {
+          "name": "task",
+          "writable": true
+        },
+        {
+          "name": "cursor",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  117,
+                  114,
+                  115,
+                  111,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "task"
+              },
+              {
+                "kind": "account",
+                "path": "builder"
+              },
+              {
+                "kind": "arg",
+                "path": "nonce"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "nonce",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "challenge_build",
+      "discriminator": [
+        130,
+        54,
+        132,
+        0,
+        231,
+        113,
+        103,
+        107
+      ],
+      "accounts": [
+        {
+          "name": "challenger",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "cursor",
+          "writable": true
+        },
+        {
+          "name": "challenge",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  104,
+                  97,
+                  108,
+                  108,
+                  101,
+                  110,
+                  103,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "cursor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "evidence_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "claim_builder_reward",
+      "discriminator": [
+        110,
+        171,
+        32,
+        150,
+        51,
+        202,
+        188,
+        92
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "cursor"
+          ]
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "epoch",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  112,
+                  111,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "epoch.id",
+                "account": "Epoch"
+              }
+            ]
+          }
+        },
+        {
+          "name": "cursor"
+        },
+        {
+          "name": "claim",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  117,
+                  105,
+                  108,
+                  100,
+                  101,
+                  114,
+                  95,
+                  99,
+                  108,
+                  97,
+                  105,
+                  109
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "epoch"
+              },
+              {
+                "kind": "account",
+                "path": "cursor"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claim_review_reward",
+      "discriminator": [
+        199,
+        71,
+        190,
+        100,
+        187,
+        132,
+        197,
+        153
+      ],
+      "accounts": [
+        {
+          "name": "reviewer",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "review"
+          ]
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "epoch",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  112,
+                  111,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "epoch.id",
+                "account": "Epoch"
+              }
+            ]
+          }
+        },
+        {
+          "name": "cursor"
+        },
+        {
+          "name": "review"
+        },
+        {
+          "name": "claim",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  118,
+                  105,
+                  101,
+                  119,
+                  95,
+                  99,
+                  108,
+                  97,
+                  105,
+                  109
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "epoch"
+              },
+              {
+                "kind": "account",
+                "path": "review"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "deposit_fees",
+      "discriminator": [
+        13,
+        215,
+        175,
+        72,
+        53,
+        21,
+        89,
+        5
+      ],
+      "accounts": [
+        {
+          "name": "depositor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "finalize_build",
+      "discriminator": [
+        247,
+        182,
+        82,
+        95,
+        32,
+        245,
+        147,
+        241
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "task",
+          "relations": [
+            "cursor"
+          ]
+        },
+        {
+          "name": "cursor",
+          "writable": true
+        },
+        {
+          "name": "epoch",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  112,
+                  111,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "epoch.id",
+                "account": "Epoch"
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize_protocol",
+      "discriminator": [
+        188,
+        233,
+        252,
+        106,
+        134,
+        146,
+        202,
+        91
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": {
+              "name": "InitializeArgs"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "open_epoch",
+      "discriminator": [
+        75,
+        57,
+        218,
+        33,
+        173,
+        254,
+        207,
+        136
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "epoch",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  112,
+                  111,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "epoch_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "epoch_id",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "publish_task",
+      "discriminator": [
+        101,
+        154,
+        196,
+        81,
+        145,
+        234,
+        17,
+        176
+      ],
+      "accounts": [
+        {
+          "name": "publisher",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "project",
+          "writable": true
+        },
+        {
+          "name": "task",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  97,
+                  115,
+                  107
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "project"
+              },
+              {
+                "kind": "arg",
+                "path": "task_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "task_id",
+          "type": "u64"
+        },
+        {
+          "name": "scope_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "artifact_destination",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "role",
+          "type": "u8"
+        },
+        {
+          "name": "difficulty",
+          "type": "u8"
+        },
+        {
+          "name": "base_points",
+          "type": "u16"
+        },
+        {
+          "name": "lease_seconds",
+          "type": "i64"
+        },
+        {
+          "name": "max_cursors",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "register_project",
+      "discriminator": [
+        130,
+        150,
+        121,
+        216,
+        183,
+        225,
+        243,
+        192
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "project",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  106,
+                  101,
+                  99,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "arg",
+                "path": "project_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "project_id",
+          "type": "u64"
+        },
+        {
+          "name": "artifact_root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "review_policy",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "resolve_challenge",
+      "discriminator": [
+        81,
+        191,
+        124,
+        119,
+        131,
+        248,
+        157,
+        109
+      ],
+      "accounts": [
+        {
+          "name": "verifier",
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "cursor",
+          "writable": true
+        },
+        {
+          "name": "challenge",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  104,
+                  97,
+                  108,
+                  108,
+                  101,
+                  110,
+                  103,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "cursor"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "uphold",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "review_build",
+      "discriminator": [
+        202,
+        204,
+        77,
+        97,
+        141,
+        53,
+        217,
+        91
+      ],
+      "accounts": [
+        {
+          "name": "reviewer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "cursor",
+          "writable": true
+        },
+        {
+          "name": "review",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  118,
+                  105,
+                  101,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "cursor"
+              },
+              {
+                "kind": "account",
+                "path": "reviewer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "approve",
+          "type": "bool"
+        },
+        {
+          "name": "quality_tier",
+          "type": "u8"
+        },
+        {
+          "name": "evidence_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "settle_epoch",
+      "discriminator": [
+        148,
+        223,
+        178,
+        38,
+        201,
+        158,
+        167,
+        13
+      ],
+      "accounts": [
+        {
+          "name": "treasury",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  114,
+                  101,
+                  97,
+                  115,
+                  117,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "epoch",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  112,
+                  111,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "epoch.id",
+                "account": "Epoch"
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "submit_build",
+      "discriminator": [
+        21,
+        233,
+        113,
+        31,
+        55,
+        197,
+        88,
+        105
+      ],
+      "accounts": [
+        {
+          "name": "owner",
+          "signer": true,
+          "relations": [
+            "cursor"
+          ]
+        },
+        {
+          "name": "cursor",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "output_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ChallengeRecord",
+      "discriminator": [
+        226,
+        106,
+        205,
+        134,
+        142,
+        29,
+        8,
+        81
+      ]
+    },
+    {
+      "name": "CursorAccount",
+      "discriminator": [
+        84,
+        62,
+        191,
+        59,
+        66,
+        206,
+        68,
+        85
+      ]
+    },
+    {
+      "name": "Epoch",
+      "discriminator": [
+        93,
+        83,
+        120,
+        89,
+        151,
+        138,
+        152,
+        108
+      ]
+    },
+    {
+      "name": "Project",
+      "discriminator": [
+        205,
+        168,
+        189,
+        202,
+        181,
+        247,
+        142,
+        19
+      ]
+    },
+    {
+      "name": "ProtocolConfig",
+      "discriminator": [
+        207,
+        91,
+        250,
+        28,
+        152,
+        179,
+        215,
+        209
+      ]
+    },
+    {
+      "name": "ReviewRecord",
+      "discriminator": [
+        98,
+        165,
+        163,
+        31,
+        198,
+        248,
+        143,
+        103
+      ]
+    },
+    {
+      "name": "RewardClaim",
+      "discriminator": [
+        194,
+        80,
+        130,
+        80,
+        113,
+        62,
+        2,
+        91
+      ]
+    },
+    {
+      "name": "TaskContract",
+      "discriminator": [
+        71,
+        7,
+        90,
+        25,
+        16,
+        89,
+        88,
+        254
+      ]
+    },
+    {
+      "name": "Treasury",
+      "discriminator": [
+        238,
+        239,
+        123,
+        238,
+        89,
+        1,
+        168,
+        253
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "BuildChallenged",
+      "discriminator": [
+        69,
+        10,
+        52,
+        172,
+        191,
+        107,
+        24,
+        218
+      ]
+    },
+    {
+      "name": "BuildFinalized",
+      "discriminator": [
+        52,
+        216,
+        247,
+        202,
+        86,
+        88,
+        105,
+        80
+      ]
+    },
+    {
+      "name": "BuildReviewed",
+      "discriminator": [
+        229,
+        165,
+        206,
+        186,
+        254,
+        209,
+        150,
+        47
+      ]
+    },
+    {
+      "name": "BuildSubmitted",
+      "discriminator": [
+        221,
+        68,
+        35,
+        116,
+        94,
+        74,
+        165,
+        23
+      ]
+    },
+    {
+      "name": "ChallengeResolved",
+      "discriminator": [
+        100,
+        153,
+        38,
+        123,
+        172,
+        250,
+        166,
+        105
+      ]
+    },
+    {
+      "name": "CursorSpawned",
+      "discriminator": [
+        5,
+        223,
+        254,
+        116,
+        118,
+        138,
+        222,
+        20
+      ]
+    },
+    {
+      "name": "EpochOpened",
+      "discriminator": [
+        136,
+        166,
+        130,
+        170,
+        78,
+        145,
+        67,
+        78
+      ]
+    },
+    {
+      "name": "EpochSettled",
+      "discriminator": [
+        32,
+        219,
+        45,
+        156,
+        250,
+        115,
+        190,
+        255
+      ]
+    },
+    {
+      "name": "FeesDeposited",
+      "discriminator": [
+        130,
+        131,
+        74,
+        238,
+        201,
+        54,
+        205,
+        192
+      ]
+    },
+    {
+      "name": "ProjectRegistered",
+      "discriminator": [
+        163,
+        167,
+        240,
+        137,
+        218,
+        249,
+        173,
+        160
+      ]
+    },
+    {
+      "name": "ProtocolInitialized",
+      "discriminator": [
+        173,
+        122,
+        168,
+        254,
+        9,
+        118,
+        76,
+        132
+      ]
+    },
+    {
+      "name": "RewardClaimed",
+      "discriminator": [
+        49,
+        28,
+        87,
+        84,
+        158,
+        48,
+        229,
+        175
+      ]
+    },
+    {
+      "name": "TaskPublished",
+      "discriminator": [
+        93,
+        10,
+        189,
+        8,
+        127,
+        25,
+        63,
+        181
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "The signer is not authorized for this action"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidMint",
+      "msg": "The supplied token mint is not the configured Miremont mint"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidState",
+      "msg": "The account or instruction state is invalid"
+    },
+    {
+      "code": 6003,
+      "name": "TaskClosed",
+      "msg": "The task contract is closed"
+    },
+    {
+      "code": 6004,
+      "name": "TaskCapacityReached",
+      "msg": "The task has reached its Cursor capacity"
+    },
+    {
+      "code": 6005,
+      "name": "ZeroBurn",
+      "msg": "The burn amount cannot be zero"
+    },
+    {
+      "code": 6006,
+      "name": "LeaseExpired",
+      "msg": "The Cursor lease has expired"
+    },
+    {
+      "code": 6007,
+      "name": "SelfReview",
+      "msg": "The builder cannot review their own Cursor"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidQuality",
+      "msg": "Quality tier must be 0, 1, or 2"
+    },
+    {
+      "code": 6009,
+      "name": "ReviewQuorumMissing",
+      "msg": "Three independent reviews are required"
+    },
+    {
+      "code": 6010,
+      "name": "ChallengeWindowOpen",
+      "msg": "The challenge window is still open"
+    },
+    {
+      "code": 6011,
+      "name": "ChallengeWindowClosed",
+      "msg": "The challenge window has closed"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidEpoch",
+      "msg": "This epoch is not the current epoch"
+    },
+    {
+      "code": 6013,
+      "name": "EpochStillOpen",
+      "msg": "The epoch has not ended"
+    },
+    {
+      "code": 6014,
+      "name": "EpochAlreadySettled",
+      "msg": "The epoch has already settled"
+    },
+    {
+      "code": 6015,
+      "name": "EpochNotSettled",
+      "msg": "The epoch has not settled"
+    },
+    {
+      "code": 6016,
+      "name": "NothingToClaim",
+      "msg": "No reward is available"
+    },
+    {
+      "code": 6017,
+      "name": "ArithmeticOverflow",
+      "msg": "Arithmetic overflow"
+    },
+    {
+      "code": 6018,
+      "name": "InsufficientTreasury",
+      "msg": "Treasury balance is insufficient"
+    }
+  ],
+  "types": [
+    {
+      "name": "BuildChallenged",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cursor",
+            "type": "pubkey"
+          },
+          {
+            "name": "challenger",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BuildFinalized",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cursor",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "points",
+            "type": "u64"
+          },
+          {
+            "name": "epoch_id",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BuildReviewed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cursor",
+            "type": "pubkey"
+          },
+          {
+            "name": "reviewer",
+            "type": "pubkey"
+          },
+          {
+            "name": "approve",
+            "type": "bool"
+          },
+          {
+            "name": "quality_tier",
+            "type": "u8"
+          },
+          {
+            "name": "review_count",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BuildSubmitted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cursor",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "output_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ChallengeRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cursor",
+            "type": "pubkey"
+          },
+          {
+            "name": "challenger",
+            "type": "pubkey"
+          },
+          {
+            "name": "evidence_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "resolved",
+            "type": "bool"
+          },
+          {
+            "name": "upheld",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ChallengeResolved",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cursor",
+            "type": "pubkey"
+          },
+          {
+            "name": "upheld",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CursorAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "project",
+            "type": "pubkey"
+          },
+          {
+            "name": "task",
+            "type": "pubkey"
+          },
+          {
+            "name": "nonce",
+            "type": "u64"
+          },
+          {
+            "name": "role",
+            "type": "u8"
+          },
+          {
+            "name": "burn_amount",
+            "type": "u64"
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "deadline",
+            "type": "i64"
+          },
+          {
+            "name": "submitted_at",
+            "type": "i64"
+          },
+          {
+            "name": "challenge_deadline",
+            "type": "i64"
+          },
+          {
+            "name": "finalized_at",
+            "type": "i64"
+          },
+          {
+            "name": "output_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "CursorStatus"
+              }
+            }
+          },
+          {
+            "name": "approvals",
+            "type": "u8"
+          },
+          {
+            "name": "rejections",
+            "type": "u8"
+          },
+          {
+            "name": "review_count",
+            "type": "u8"
+          },
+          {
+            "name": "quality_sum",
+            "type": "u16"
+          },
+          {
+            "name": "points",
+            "type": "u64"
+          },
+          {
+            "name": "epoch_id",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CursorSpawned",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cursor",
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "task",
+            "type": "pubkey"
+          },
+          {
+            "name": "burn_amount",
+            "type": "u64"
+          },
+          {
+            "name": "deadline",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CursorStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Active"
+          },
+          {
+            "name": "Submitted"
+          },
+          {
+            "name": "PendingChallenge"
+          },
+          {
+            "name": "Challenged"
+          },
+          {
+            "name": "Rejected"
+          },
+          {
+            "name": "Finalized"
+          },
+          {
+            "name": "Expired"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Epoch",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "starts_at",
+            "type": "i64"
+          },
+          {
+            "name": "ends_at",
+            "type": "i64"
+          },
+          {
+            "name": "total_builder_points",
+            "type": "u64"
+          },
+          {
+            "name": "total_review_units",
+            "type": "u64"
+          },
+          {
+            "name": "net_sol",
+            "type": "u64"
+          },
+          {
+            "name": "builder_pool",
+            "type": "u64"
+          },
+          {
+            "name": "reviewer_pool",
+            "type": "u64"
+          },
+          {
+            "name": "settled",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EpochOpened",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "epoch",
+            "type": "pubkey"
+          },
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "ends_at",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EpochSettled",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "epoch",
+            "type": "pubkey"
+          },
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "net_sol",
+            "type": "u64"
+          },
+          {
+            "name": "builder_pool",
+            "type": "u64"
+          },
+          {
+            "name": "reviewer_pool",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeesDeposited",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "depositor",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "verifier_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "operations_wallet",
+            "type": "pubkey"
+          },
+          {
+            "name": "reserve_wallet",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Project",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "artifact_root",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "review_policy",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "active",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProjectRegistered",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "project",
+            "type": "pubkey"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "id",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProtocolConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "verifier_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "operations_wallet",
+            "type": "pubkey"
+          },
+          {
+            "name": "reserve_wallet",
+            "type": "pubkey"
+          },
+          {
+            "name": "burn_denominator",
+            "type": "u64"
+          },
+          {
+            "name": "lease_seconds",
+            "type": "i64"
+          },
+          {
+            "name": "challenge_seconds",
+            "type": "i64"
+          },
+          {
+            "name": "epoch_seconds",
+            "type": "i64"
+          },
+          {
+            "name": "paused",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProtocolInitialized",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ReviewRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "cursor",
+            "type": "pubkey"
+          },
+          {
+            "name": "reviewer",
+            "type": "pubkey"
+          },
+          {
+            "name": "approve",
+            "type": "bool"
+          },
+          {
+            "name": "quality_tier",
+            "type": "u8"
+          },
+          {
+            "name": "evidence_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "epoch_id",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardClaim",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "epoch",
+            "type": "pubkey"
+          },
+          {
+            "name": "claimant",
+            "type": "pubkey"
+          },
+          {
+            "name": "reference",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "claimed_at",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardClaimed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "claimant",
+            "type": "pubkey"
+          },
+          {
+            "name": "reference",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "kind",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TaskContract",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "project",
+            "type": "pubkey"
+          },
+          {
+            "name": "publisher",
+            "type": "pubkey"
+          },
+          {
+            "name": "scope_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "artifact_destination",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "role",
+            "type": "u8"
+          },
+          {
+            "name": "difficulty",
+            "type": "u8"
+          },
+          {
+            "name": "base_points",
+            "type": "u16"
+          },
+          {
+            "name": "lease_seconds",
+            "type": "i64"
+          },
+          {
+            "name": "max_cursors",
+            "type": "u16"
+          },
+          {
+            "name": "cursor_count",
+            "type": "u16"
+          },
+          {
+            "name": "open",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TaskPublished",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "task",
+            "type": "pubkey"
+          },
+          {
+            "name": "project",
+            "type": "pubkey"
+          },
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "role",
+            "type": "u8"
+          },
+          {
+            "name": "difficulty",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Treasury",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "total_deposited",
+            "type": "u64"
+          },
+          {
+            "name": "total_allocated",
+            "type": "u64"
+          },
+          {
+            "name": "total_claimed",
+            "type": "u64"
+          },
+          {
+            "name": "operations_accrued",
+            "type": "u64"
+          },
+          {
+            "name": "reserve_accrued",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "constants": [
+    {
+      "name": "BUILDER_CLAIM_SEED",
+      "type": "bytes",
+      "value": "[98, 117, 105, 108, 100, 101, 114, 95, 99, 108, 97, 105, 109]"
+    },
+    {
+      "name": "CHALLENGE_SEED",
+      "type": "bytes",
+      "value": "[99, 104, 97, 108, 108, 101, 110, 103, 101]"
+    },
+    {
+      "name": "CONFIG_SEED",
+      "type": "bytes",
+      "value": "[99, 111, 110, 102, 105, 103]"
+    },
+    {
+      "name": "CURSOR_SEED",
+      "type": "bytes",
+      "value": "[99, 117, 114, 115, 111, 114]"
+    },
+    {
+      "name": "EPOCH_SEED",
+      "type": "bytes",
+      "value": "[101, 112, 111, 99, 104]"
+    },
+    {
+      "name": "PROJECT_SEED",
+      "type": "bytes",
+      "value": "[112, 114, 111, 106, 101, 99, 116]"
+    },
+    {
+      "name": "REVIEW_CLAIM_SEED",
+      "type": "bytes",
+      "value": "[114, 101, 118, 105, 101, 119, 95, 99, 108, 97, 105, 109]"
+    },
+    {
+      "name": "REVIEW_SEED",
+      "type": "bytes",
+      "value": "[114, 101, 118, 105, 101, 119]"
+    },
+    {
+      "name": "TASK_SEED",
+      "type": "bytes",
+      "value": "[116, 97, 115, 107]"
+    },
+    {
+      "name": "TREASURY_SEED",
+      "type": "bytes",
+      "value": "[116, 114, 101, 97, 115, 117, 114, 121]"
+    }
+  ]
+}

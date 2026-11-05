@@ -81,7 +81,7 @@ function ensureWalletModal() {
   overlay.hidden = true;
   overlay.innerHTML = `
     <section class="mm-wallet-modal" role="dialog" aria-modal="true" aria-labelledby="wallet-title">
-      <header class="mm-wallet-head"><h2 id="wallet-title">Connect a Solana wallet</h2><button class="mm-wallet-close" type="button" aria-label="Close">×</button></header>
+      <header class="mm-wallet-head"><h2 id="wallet-title">Connect a Solana wallet</h2><button class="mm-wallet-close mm-wallet-close-icon" type="button" aria-label="Close">×</button></header>
       <div class="mm-wallet-body">
         <p class="mm-wallet-note">Miremont only requests permission to read your public address. A transaction is signed only when you explicitly approve it.</p>
         <div class="mm-wallet-list"></div>

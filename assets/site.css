@@ -38,8 +38,9 @@
 }
 .mm-wallet-head, .mm-wallet-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 20px; }
 .mm-wallet-head { border-bottom: 1px solid var(--mm-line); }
-.mm-wallet-head h2 { margin: 0; font: 600 20px/1.2 Inter, sans-serif; }
-.mm-wallet-close { width: 34px; height: 34px; border: 1px solid var(--mm-line); border-radius: 8px; color: var(--mm-ink); background: transparent; cursor: pointer; }
+.mm-wallet-head h2 { min-width: 0; margin: 0; font: 600 20px/1.2 Inter, sans-serif; }
+.mm-wallet-close { border: 1px solid var(--mm-line); border-radius: 8px; color: var(--mm-ink); background: transparent; cursor: pointer; }
+.mm-wallet-close-icon { display: grid; flex: 0 0 34px; width: 34px; height: 34px; padding: 0; place-items: center; font: 400 20px/1 Inter, sans-serif; }
 .mm-wallet-body { padding: 18px 20px; }
 .mm-wallet-note { margin: 0 0 14px; color: var(--mm-muted); font: 400 13px/1.5 Inter, sans-serif; }
 .mm-wallet-list { display: grid; gap: 8px; }
@@ -51,6 +52,7 @@
 .mm-wallet-foot { border-top: 1px solid var(--mm-line); color: var(--mm-muted); font: 400 11px/1.4 JetBrains Mono, monospace; }
 .mm-wallet-foot-actions { display: flex; align-items: center; gap: 8px; }
 .mm-wallet-foot-actions .mm-button { min-height: 34px; padding-inline: 12px; font-size: 11px; }
+.mm-wallet-foot .mm-disconnect { width: auto; min-width: 76px; height: 34px; padding: 0 14px; flex: 0 0 auto; white-space: nowrap; font: 600 11px/1 Inter, sans-serif; }
 
 .mm-subpage {
   min-height: 100vh;

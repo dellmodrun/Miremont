@@ -13,7 +13,7 @@ Miremont turns a verified token burn into one task-bound Cursor. The repository 
 
 Program ID: `HB1DSzqQFLRPAabjSoFGG7tbkNGya27enKfuAsXJND88`
 
-Mainnet remains intentionally blocked until the official token CA is supplied and the program deployment is funded. Localnet uses an isolated test mint and test SOL only.
+The official token CA is published. Mainnet transactions remain blocked until the program deployment is funded and the protocol is initialized against that mint. Localnet uses an isolated test mint and test SOL only.
 
 ## Run
 

@@ -88,16 +88,19 @@ function publicAccount(row) {
 }
 
 async function listTasks() {
+  if (!isLocal && !(await protocolStatus()).ready) return [];
   const program = await readProgram();
   return (await program.account.taskContract.all()).map(publicAccount);
 }
 
 async function listProjects() {
+  if (!isLocal && !(await protocolStatus()).ready) return [];
   const program = await readProgram();
   return (await program.account.project.all()).map(publicAccount);
 }
 
 async function listCursors() {
+  if (!isLocal && !(await protocolStatus()).ready) return [];
   const program = await readProgram();
   return (await program.account.cursorAccount.all()).map(publicAccount);
 }

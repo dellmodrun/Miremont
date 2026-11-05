@@ -259,6 +259,17 @@ function setProtocolMessage(message, state = '') {
   });
 }
 
+function readableChainError(error, fallback = 'On-chain data is temporarily unavailable.') {
+  const message = error?.message || String(error || '');
+  if (/403|access forbidden/i.test(message)) {
+    return 'The public Solana RPC refused this indexed request. Mainnet data access is being activated with the production RPC.';
+  }
+  if (/429|too many requests|rate.?limit/i.test(message)) {
+    return 'The Solana RPC is temporarily rate-limited. Please try again shortly.';
+  }
+  return message || fallback;
+}
+
 const roleNames = ['Unassigned', 'Research', 'Code', 'Design', 'Review', 'Deploy'];
 const accountText = value => value?.toBase58 ? value.toBase58() : value?.toString?.() || '—';
 const enumName = value => value && typeof value === 'object' ? Object.keys(value)[0] || 'unknown' : String(value || 'unknown');
@@ -298,7 +309,7 @@ async function inspectCursor(api, address) {
     url.searchParams.set('address', address);
     history.replaceState(null, '', url);
   } catch (error) {
-    if (status) status.textContent = error?.message || 'Cursor account could not be decoded.';
+    if (status) status.textContent = readableChainError(error, 'Cursor account could not be decoded.');
   }
 }
 
@@ -310,7 +321,7 @@ async function loadProtocolTables(api) {
       document.querySelectorAll('[data-task-count]').forEach(element => { element.textContent = String(tasks.length); });
       taskBody.innerHTML = tasks.length ? tasks.map(task => `<tr><td><a href="/cursors/?task=${task.address}#spawn">${shortAddress(task.address)}</a></td><td>${shortAddress(accountText(task.project))}</td><td>${roleNames[Number(task.role)] || task.role}</td><td>${task.difficulty}</td><td>${task.basePoints}</td><td>${task.leaseSeconds}s</td><td>${task.cursorCount}/${task.maxCursors}</td></tr>`).join('') : '<tr><td class="mm-empty" colspan="7">No open on-chain tasks.</td></tr>';
     } catch (error) {
-      taskBody.innerHTML = `<tr><td class="mm-empty" colspan="7">${error?.message || 'Task accounts unavailable.'}</td></tr>`;
+      taskBody.innerHTML = `<tr><td class="mm-empty" colspan="7">${readableChainError(error, 'Task accounts unavailable.')}</td></tr>`;
     }
   }
   const projectList = document.querySelector('[data-project-list]');
@@ -319,7 +330,7 @@ async function loadProtocolTables(api) {
       const projects = await api.listProjects();
       projectList.innerHTML = projects.length ? projects.map(project => `<article class="mm-project-card"><div class="mm-project-head"><div><small>Project ${project.id}</small><h3>${shortAddress(project.address)}</h3></div><span class="mm-status">${project.active ? 'Active' : 'Inactive'}</span></div><p>Authority · ${accountText(project.authority)}</p><div class="mm-grid-3"><div><strong>Artifact root</strong><span>${project.artifactRoot.slice(0, 6).map(value => value.toString(16).padStart(2, '0')).join('')}…</span></div><div><strong>Review policy</strong><span>${project.reviewPolicy.slice(0, 6).map(value => value.toString(16).padStart(2, '0')).join('')}…</span></div><div><strong>Account</strong><span>${project.address}</span></div></div><div class="mm-button-row"><a class="mm-button mm-button--primary" href="/tasks/">View tasks</a></div></article>`).join('') : '<article class="mm-project-card"><h3>No registered projects.</h3></article>';
     } catch (error) {
-      projectList.innerHTML = `<article class="mm-project-card"><h3>${error?.message || 'Project registry unavailable.'}</h3></article>`;
+      projectList.innerHTML = `<article class="mm-project-card"><h3>${readableChainError(error, 'Project registry unavailable.')}</h3></article>`;
     }
   }
   const liveList = document.querySelector('[data-live-cursor-list]');
@@ -331,7 +342,7 @@ async function loadProtocolTables(api) {
       if (liveList) liveList.innerHTML = cursors.length ? cursors.map(cursor => `<a class="mm-live-item" href="/cursor/?address=${cursor.address}"><strong>${shortAddress(cursor.address)}</strong><span>${enumName(cursor.status)} · ${roleNames[Number(cursor.role)] || cursor.role}</span></a>`).join('') : '<div class="mm-live-empty"><strong>No live Cursors.</strong><p>Spawn the first Cursor from an open task.</p></div>';
       if (receiptBody) receiptBody.innerHTML = cursors.length ? cursors.map(cursor => `<tr><td><a href="/cursor/?address=${cursor.address}">${shortAddress(cursor.address)}</a></td><td>${shortAddress(accountText(cursor.owner))}</td><td>${roleNames[Number(cursor.role)] || cursor.role}</td><td>${cursor.burnAmount}</td><td>${enumName(cursor.status)}</td><td>${cursor.points}</td><td>${cursor.epochId}</td></tr>`).join('') : '<tr><td class="mm-empty" colspan="7">No on-chain Cursor receipts.</td></tr>';
     } catch (error) {
-      const message = error?.message || 'Cursor accounts unavailable.';
+      const message = readableChainError(error, 'Cursor accounts unavailable.');
       if (liveList) liveList.innerHTML = `<div class="mm-live-empty"><strong>${message}</strong></div>`;
       if (receiptBody) receiptBody.innerHTML = `<tr><td class="mm-empty" colspan="7">${message}</td></tr>`;
     }
@@ -345,7 +356,7 @@ async function loadProtocolTables(api) {
         element.textContent = accountText(treasury.account[element.dataset.treasuryValue]);
       });
     } catch (error) {
-      document.querySelectorAll('[data-treasury-address]').forEach(element => { element.textContent = error?.message || 'unavailable'; });
+      document.querySelectorAll('[data-treasury-address]').forEach(element => { element.textContent = readableChainError(error, 'unavailable'); });
     }
   }
   const accountBody = document.querySelector('[data-account-cursors]');
@@ -361,7 +372,7 @@ async function loadProtocolTables(api) {
         document.querySelectorAll('[data-account-metric]').forEach(element => { element.textContent = String(metrics[element.dataset.accountMetric] ?? 0); });
         accountBody.innerHTML = cursors.length ? cursors.map(cursor => `<tr><td><a href="/cursor/?address=${cursor.address}">${shortAddress(cursor.address)}</a></td><td>${shortAddress(accountText(cursor.project))}</td><td>${shortAddress(accountText(cursor.task))}</td><td>${roleNames[Number(cursor.role)] || cursor.role}</td><td>${enumName(cursor.status)}</td><td>${utcTime(cursor.deadline)}</td><td>${cursor.points}</td></tr>`).join('') : '<tr><td class="mm-empty" colspan="7">No Cursors owned by this wallet.</td></tr>';
       } catch (error) {
-        accountBody.innerHTML = `<tr><td class="mm-empty" colspan="7">${error?.message || 'Wallet accounts unavailable.'}</td></tr>`;
+        accountBody.innerHTML = `<tr><td class="mm-empty" colspan="7">${readableChainError(error, 'Wallet accounts unavailable.')}</td></tr>`;
       }
     }
   }

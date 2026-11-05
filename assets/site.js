@@ -25,10 +25,26 @@ const external = {
   x: 'https://x.com/miremontrun',
 };
 
+const assetUrl = name => new URL(name, import.meta.url).href;
+
+function ensureBrowserIcon() {
+  let icon = document.querySelector('link[rel="icon"][data-miremont-icon]');
+  if (!icon) {
+    icon = document.createElement('link');
+    icon.rel = 'icon';
+    icon.type = 'image/png';
+    icon.dataset.miremontIcon = 'true';
+    document.head.append(icon);
+  }
+  icon.href = assetUrl('miremont-logo.png?v=3');
+}
+
+ensureBrowserIcon();
+
 const walletProviders = [
-  { name: 'Phantom', get: () => window.phantom?.solana || (window.solana?.isPhantom ? window.solana : null), url: 'https://phantom.com/' },
-  { name: 'Solflare', get: () => window.solflare || null, url: 'https://solflare.com/' },
-  { name: 'Backpack', get: () => window.backpack?.solana || window.xnft?.solana || null, url: 'https://backpack.app/' },
+  { name: 'Phantom', icon: assetUrl('wallet-phantom.svg'), get: () => window.phantom?.solana || (window.solana?.isPhantom ? window.solana : null), url: 'https://phantom.com/' },
+  { name: 'Solflare', icon: assetUrl('wallet-solflare.png'), get: () => window.solflare || null, url: 'https://solflare.com/' },
+  { name: 'Backpack', icon: assetUrl('wallet-backpack.ico'), get: () => window.backpack?.solana || window.xnft?.solana || null, url: 'https://backpack.app/' },
 ];
 
 let connectedAddress = localStorage.getItem('miremont_wallet') || '';
@@ -91,7 +107,7 @@ function renderWalletOptions() {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'mm-wallet-option';
-    button.innerHTML = `<span>${item.name}</span><small>${provider ? 'Installed' : 'Not installed'}</small>`;
+    button.innerHTML = `<span class="mm-wallet-option-main"><img src="${item.icon}" alt="" /><span>${item.name}</span></span><small>${provider ? 'Installed' : 'Install wallet'}</small>`;
     button.addEventListener('click', async () => {
       if (!provider) {
         window.open(item.url, '_blank', 'noopener,noreferrer');
@@ -190,6 +206,18 @@ function bindHomeCanvas() {
     else if (near(left, 312) && near(top, 488) && near(width, 156)) makeAction(element, 'spawn');
     else if (near(left, 116) && near(top, 3596) && near(width, 184)) makeAction(element, 'spawn');
   });
+  const navCanvas = document.querySelector('.nav-canvas');
+  if (navCanvas && !navCanvas.querySelector('[data-home-x-link]')) {
+    const link = document.createElement('a');
+    link.className = 'mm-home-x-link';
+    link.dataset.homeXLink = 'true';
+    link.href = external.x;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.setAttribute('aria-label', 'Miremont on X');
+    link.innerHTML = `<img src="${assetUrl('x-logo.svg')}" alt="" />`;
+    navCanvas.append(link);
+  }
   updateWalletLabels();
 }
 

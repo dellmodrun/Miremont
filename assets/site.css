@@ -13,6 +13,9 @@
 
 .mm-clickable { cursor: pointer; }
 .mm-clickable:focus-visible { outline: 2px solid var(--mm-ink); outline-offset: 3px; }
+.mm-home-x-link { position: absolute; z-index: 20; left: 1036px; top: 34px; display: grid; width: 40px; height: 44px; place-items: center; border-radius: 8px; cursor: pointer; }
+.mm-home-x-link img { display: block; width: 15px; height: 15px; }
+.mm-home-x-link:focus-visible { outline: 2px solid #1e1713; outline-offset: 2px; }
 
 .mm-wallet-overlay {
   position: fixed;
@@ -42,6 +45,8 @@
 .mm-wallet-list { display: grid; gap: 8px; }
 .mm-wallet-option { display: flex; align-items: center; justify-content: space-between; min-height: 50px; padding: 0 14px; border: 1px solid var(--mm-line); border-radius: 9px; color: var(--mm-ink); background: rgba(115, 54, 34, .16); font: 600 14px/1 Inter, sans-serif; cursor: pointer; }
 .mm-wallet-option:hover { background: rgba(115, 54, 34, .28); }
+.mm-wallet-option-main { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.mm-wallet-option-main img { display: block; width: 26px; height: 26px; flex: 0 0 26px; border-radius: 7px; object-fit: contain; }
 .mm-wallet-option small { color: var(--mm-muted); font: 500 10px/1 JetBrains Mono, monospace; text-transform: uppercase; }
 .mm-wallet-foot { border-top: 1px solid var(--mm-line); color: var(--mm-muted); font: 400 11px/1.4 JetBrains Mono, monospace; }
 .mm-wallet-foot-actions { display: flex; align-items: center; gap: 8px; }
@@ -212,4 +217,10 @@
   .mm-brand span { display: none; }
   .mm-nav-actions { gap: 6px; }
   .mm-nav-links a { padding-inline: 4px; font-size: 10.5px; }
+  .mm-wallet-overlay { padding: 10px; }
+  .mm-wallet-modal { max-height: calc(100dvh - 20px); overflow: auto; }
+  .mm-wallet-head, .mm-wallet-body, .mm-wallet-foot { padding-left: 14px; padding-right: 14px; }
+  .mm-wallet-foot { align-items: flex-start; flex-direction: column; }
+  .mm-wallet-foot-actions { width: 100%; }
+  .mm-wallet-foot-actions > * { flex: 1; text-align: center; }
 }

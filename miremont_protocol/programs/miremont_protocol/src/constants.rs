@@ -1,5 +1,7 @@
 use anchor_lang::prelude::*;
 
+pub const DEPLOY_AUTHORITY: Pubkey = pubkey!("4yFpoakRmFgJmQxrtf5XEQ72eKW5TUq1wuu7y9Hu9YQd");
+
 #[constant]
 pub const CONFIG_SEED: &[u8] = b"config";
 #[constant]

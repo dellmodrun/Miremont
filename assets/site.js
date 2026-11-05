@@ -372,7 +372,10 @@ function bindProtocolActions() {
   if (!api) return;
   document.querySelectorAll('[data-local-only]').forEach(element => { element.hidden = !api.isLocal; });
   const selectedTask = new URLSearchParams(location.search).get('task');
-  if (selectedTask) document.querySelectorAll('[name="task_account"]').forEach(input => { input.value = selectedTask; });
+  document.querySelectorAll('[name="task_account"]').forEach(input => {
+    if (selectedTask) input.value = selectedTask;
+    else if (!api.isLocal) input.value = '';
+  });
   document.querySelectorAll('[data-cursor-lookup]').forEach(form => {
     if (form.dataset.mmBound) return;
     form.dataset.mmBound = 'true';

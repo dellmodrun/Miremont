@@ -12,7 +12,7 @@ pub struct InitializeArgs {
 
 #[derive(Accounts)]
 pub struct InitializeProtocol<'info> {
-    #[account(mut)]
+    #[account(mut, address = DEPLOY_AUTHORITY @ ErrorCode::Unauthorized)]
     pub authority: Signer<'info>,
     pub mint: InterfaceAccount<'info, Mint>,
     #[account(init, payer = authority, space = 8 + ProtocolConfig::INIT_SPACE, seeds = [CONFIG_SEED], bump)]

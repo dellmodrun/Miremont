@@ -34,6 +34,10 @@ function walletAdapter(provider) {
 
 async function programFor(provider) {
   if (!provider?.publicKey || !provider?.signTransaction) throw new Error("Connect a compatible Solana wallet first.");
+  if (!isLocal) {
+    const status = await protocolStatus();
+    if (!status.ready) throw new Error(status.reason);
+  }
   const idl = await loadIdl();
   return new anchor.Program(idl, new anchor.AnchorProvider(connection, walletAdapter(provider), { commitment: "confirmed" }));
 }
@@ -57,14 +61,25 @@ async function hashText(value) {
 }
 
 async function protocolStatus() {
-  if (!isLocal) return { ready: false, network: "mainnet-beta", reason: "Official token CA and mainnet program deployment are pending." };
   const program = await readProgram();
   const [config] = PublicKey.findProgramAddressSync([Buffer.from("config")], PROGRAM_ID);
   try {
     const account = await program.account.protocolConfig.fetch(config);
-    return { ready: true, network: "localnet", mint: account.mint.toBase58(), program: PROGRAM_ID.toBase58(), task: LOCAL_TASK.toBase58() };
+    return {
+      ready: true,
+      network: isLocal ? "localnet" : "mainnet-beta",
+      mint: account.mint.toBase58(),
+      program: PROGRAM_ID.toBase58(),
+      task: isLocal ? LOCAL_TASK.toBase58() : undefined,
+    };
   } catch {
-    return { ready: false, network: "localnet", reason: "Local validator or protocol account is unavailable." };
+    return {
+      ready: false,
+      network: isLocal ? "localnet" : "mainnet-beta",
+      reason: isLocal
+        ? "Local validator or protocol account is unavailable."
+        : "Miremont mainnet activation is pending program deployment and protocol initialization.",
+    };
   }
 }
 
@@ -73,19 +88,16 @@ function publicAccount(row) {
 }
 
 async function listTasks() {
-  if (!isLocal) return [];
   const program = await readProgram();
   return (await program.account.taskContract.all()).map(publicAccount);
 }
 
 async function listProjects() {
-  if (!isLocal) return [];
   const program = await readProgram();
   return (await program.account.project.all()).map(publicAccount);
 }
 
 async function listCursors() {
-  if (!isLocal) return [];
   const program = await readProgram();
   return (await program.account.cursorAccount.all()).map(publicAccount);
 }
@@ -105,7 +117,6 @@ async function treasuryStatus() {
 }
 
 async function registerProject(provider, artifactRoot, reviewPolicy) {
-  if (!isLocal) throw new Error("Mainnet activation is waiting for the official token CA.");
   const program = await programFor(provider);
   const authority = provider.publicKey;
   const projectId = BigInt(Date.now());
@@ -122,7 +133,6 @@ async function registerProject(provider, artifactRoot, reviewPolicy) {
 }
 
 async function publishTask(provider, values) {
-  if (!isLocal) throw new Error("Mainnet activation is waiting for the official token CA.");
   const program = await programFor(provider);
   const publisher = provider.publicKey;
   const project = new PublicKey(values.project);
@@ -254,8 +264,8 @@ async function claimBuilderReward(provider, cursorAddress) {
   return { signature, claim: claim.toBase58() };
 }
 
-async function spawnCursor(provider, taskAddress = LOCAL_TASK.toBase58()) {
-  if (!isLocal) throw new Error("Mainnet activation is waiting for the official token CA.");
+async function spawnCursor(provider, taskAddress = isLocal ? LOCAL_TASK.toBase58() : "") {
+  if (!taskAddress) throw new Error("Select a published task before spawning a Cursor.");
   const program = await programFor(provider);
   const builder = provider.publicKey;
   const task = new PublicKey(taskAddress);

@@ -1,6 +1,7 @@
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 const output = new URL('../dist/', import.meta.url);
-const prefix = '/Miremont';
+const prefix = '';
+const customDomain = 'miremont.run';
 const pages = ['account', 'build-log', 'cursor', 'cursors', 'docs', 'live', 'mechanism', 'projects', 'rewards', 'tasks'];
 
 await rm(output, { recursive: true, force: true });
@@ -37,4 +38,5 @@ client = client.replaceAll('fetch("/assets/', `fetch("${prefix}/assets/`);
 await writeFile(clientPath, client);
 
 await writeFile(new URL('../dist/.nojekyll', import.meta.url), '');
+await writeFile(new URL('../dist/CNAME', import.meta.url), `${customDomain}\n`);
 

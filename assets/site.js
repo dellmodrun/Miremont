@@ -21,11 +21,9 @@ const routes = {
 };
 
 const external = {
-  buy: 'https://pump.fun/coin/RCdi1ktqcJ3CBU98TWhwuGM1748oe1DQazFqoCxpump',
+  buy: 'https://pump.fun/',
   x: 'https://x.com/miremontrun',
 };
-
-const officialMint = 'RCdi1ktqcJ3CBU98TWhwuGM1748oe1DQazFqoCxpump';
 
 const assetUrl = name => new URL(name, import.meta.url).href;
 
@@ -551,7 +549,7 @@ function bindProtocolActions() {
     api.protocolStatus().then(status => {
       document.querySelectorAll('[data-protocol-network]').forEach(element => { element.textContent = status.network; });
       document.querySelectorAll('[data-protocol-mint]').forEach(element => {
-        const value = status.mint || officialMint;
+        const value = status.mint || 'TBA';
         if ('value' in element) element.value = value;
         else element.textContent = value;
       });
